@@ -25,7 +25,41 @@ saves locally without the printer or cloud service. Other Canon cameras may
 work through `gphoto2`, but only the EOS RP workflow is currently supported and
 tested.
 
-## Quick start from source
+## The simple Photobooth
+
+The smallest useful setup is a Mac, Canon RP, lens and USB data cable. A flash
+is strongly recommended for party lighting. It needs no account, internet,
+printer, projector, event profile or cloud service.
+
+```sh
+git clone https://github.com/rorydbain/party-appliances.git
+cd party-appliances
+./scripts/setup-macos.sh --booth-only
+```
+
+Connect and switch on the camera, then open **Photobooth** from Applications.
+It connects automatically, shows a treated live view and stores an untouched
+original plus the finished JPEG under
+`~/Movies/Party Appliances/Booth captures/`.
+
+With no sharing configuration, the host screen shows local storage and recent
+photos. It does not show cloud, printer or receipt controls.
+
+## Add only what you need
+
+| Part | What it adds | Required? |
+| --- | --- | --- |
+| Built-in colour treatments | Warm film, soft neutral and monochrome output | Included |
+| Flash | More consistent, flattering party photographs | Recommended |
+| iPad with Sidecar | A larger touch screen for guests | Optional |
+| Epson receipt printer + gallery | QR receipts linked to each photograph | Optional |
+| Cloudflare gallery | Phone viewing, downloads and remote deletion | Optional |
+| Loop on another Mac | Projector slideshow with optional new booth photos | Separate app |
+
+Photobooth and Loop never need to run together. Loop's live booth feed is
+best-effort and stays dormant unless a feed URL is explicitly configured.
+
+## Install both apps from source
 
 Install Node.js 20 or later. Photobooth also needs Homebrew `gphoto2`:
 
@@ -52,7 +86,7 @@ npm test
 The normal unit tests do not open application windows or use the real camera.
 `npm run test:app` is an explicit interactive smoke test.
 
-## Configure an event
+## Optional event configuration
 
 Both apps read one shared event profile from:
 
@@ -60,9 +94,9 @@ Both apps read one shared event profile from:
 ~/Library/Application Support/Party Appliances/event.json
 ```
 
-Copy [`config/event.example.json`](config/event.example.json) there and edit the
-names, venue and URLs. With no profile, the apps use generic local-only defaults
-and Loop does not contact a live photo feed.
+Copy [`config/event.example.json`](config/event.example.json) there only if you
+want custom names, receipt headings or online URLs. With no profile, the apps
+use generic local-only defaults and Loop does not contact a live photo feed.
 
 Photobooth's upload token and print switch remain in its private delivery file:
 
@@ -71,7 +105,7 @@ Photobooth's upload token and print switch remain in its private delivery file:
 ```
 
 Copy [`config/delivery.example.json`](config/delivery.example.json) to that
-location only when cloud delivery or receipts are wanted. The legacy `Frame`
+location only when cloud delivery or QR receipts are wanted. The legacy `Frame`
 directory is retained so existing Photobooth installations keep their queues,
 preferences and printer environment.
 

@@ -3,6 +3,19 @@
 Photobooth is a local-first tethered still-photo application for the Canon EOS
 RP. The production interface intentionally supports photographs only.
 
+## Start with local capture
+
+The core app needs only the camera and `gphoto2`. Run:
+
+```sh
+./scripts/setup-macos.sh --booth-only
+```
+
+No event profile or delivery file is required. In this mode every photograph
+is saved locally, the host can review and delete recent captures, and cloud,
+printer and receipt controls remain hidden. This is the intended starting
+point, rather than a degraded version of the full setup.
+
 ## Capture flow
 
 Install `gphoto2`, connect a powered RP containing an SD card, and close EOS
@@ -40,6 +53,10 @@ the in-memory photograph and offers **Retry save**. Do not force-quit during
 that state.
 
 ## Optional services
+
+Each service can be left out. Cloud sharing and Loop are independent: enabling
+one does not require the other. QR receipts currently use the permanent gallery
+URL, so receipt printing is enabled as part of a configured gallery setup.
 
 The delivery queue retries cloud uploads with backoff and gives each photo a
 stable QR URL before upload begins. Printing uses the local treated photograph
