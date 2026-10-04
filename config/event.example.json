@@ -1,0 +1,9 @@
+{
+  "eventName": "Alex + Sam",
+  "venue": "Example venue / London",
+  "eventSlug": "alex-sam-party",
+  "publicUrl": "https://photos.example.com",
+  "liveFeedUrl": "https://photos.example.com/api/events/alex-sam-party/photos",
+  "receiptTitle": "ALEX + SAM",
+  "receiptVenue": "EXAMPLE VENUE / LONDON"
+}

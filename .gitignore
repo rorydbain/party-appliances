@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.packaging/
+artifacts/
+.DS_Store
+.env
+.env.*
+!.env.example
+.wrangler/
+cloud/wrangler.event.toml
+config/event.json
+config/delivery.json
+*.log
+__pycache__/
+*.pyc
+*.blend1
+/bin/resolve-place

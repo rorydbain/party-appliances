@@ -1,0 +1,15 @@
+name = "party-photo-delivery"
+main = "src/worker.js"
+compatibility_date = "2026-09-01"
+
+[[r2_buckets]]
+binding = "FRAME_BUCKET"
+bucket_name = "party-photos"
+
+[vars]
+EVENT_NAME = "Alex + Sam"
+EVENT_VENUE = "Example venue / London"
+EVENT_TIMEZONE = "Europe/London"
+DEFAULT_EVENT = "alex-sam-party"
+PUBLIC_GALLERY_ORIGIN = "https://photos.example.com"
+PRIVACY_CONTACT = "the event host"

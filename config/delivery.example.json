@@ -1,0 +1,7 @@
+{
+  "endpoint": "https://party-photo-delivery.YOUR-SUBDOMAIN.workers.dev",
+  "publicUrl": "https://photos.example.com",
+  "token": "REPLACE_WITH_THE_UPLOAD_TOKEN",
+  "event": "alex-sam-party",
+  "printReceipts": false
+}

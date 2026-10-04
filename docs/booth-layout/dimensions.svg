@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1050" viewBox="0 0 1400 1050">
+<title>Frame portrait box: proposed front layout, depth section and connections</title>
+<desc>47 centimetres wide, 36 high, 22.5 deep. Two 14 by 16 centimetre diffusion windows flank a Canon RP and RF28 lens. A 10 inch screen is below. Closed laptop occupies a rear vertical slot. Layout is provisional and needs actual measurements.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10" fill="none" stroke="#606958" stroke-width="1.5"/></marker></defs>
+<style>text{font-family:Helvetica,Arial,sans-serif;fill:#292f28}.small{font-size:15px;fill:#606958}.label{font-size:17px}.mono{font-family:Menlo,monospace;font-size:13px;letter-spacing:1px}.dim{stroke:#606958;stroke-width:1.2;marker-start:url(#arrow);marker-end:url(#arrow)}.guide{fill:none;stroke:#a4a99d;stroke-width:1;stroke-dasharray:4 4}.wire{fill:none;stroke:#566448;stroke-width:2;marker-end:url(#arrow)}</style>
+<rect width="1400" height="1050" fill="#f2f0e8"/>
+<text x="70" y="66" font-size="34" letter-spacing="-1">Frame / a portrait box</text>
+<text x="70" y="99" class="small">RP + RF 28mm F2.8 · two 430EX IIs · 47 × 36 × 22.5 cm exterior</text>
+<text x="70" y="135" class="mono">01 / FRONT — GUEST SIDE</text>
+<text x="800" y="135" class="mono">02 / DEPTH — COMBINED COMPONENT ENVELOPES</text>
+<path d="M90 180 V150 M560 180 V150" class="guide"/><path d="M90 160 H560" class="dim"/><text x="325" y="150" text-anchor="middle" class="label">47 cm</text>
+<path d="M80 190 H50 M80 550 H50" class="guide"/><path d="M60 190 V550" class="dim"/><text x="42" y="370" transform="rotate(-90 42 370)" text-anchor="middle" class="label">36 cm</text>
+<rect x="90" y="190" width="470" height="360" rx="2" fill="#c3a47c" stroke="#64553e" stroke-width="2"/>
+<rect x="110" y="210" width="140" height="160" fill="#fffdf5" stroke="#938a75"/>
+<rect x="400" y="210" width="140" height="160" fill="#fffdf5" stroke="#938a75"/>
+<text x="180" y="273" text-anchor="middle" class="label">DIFFUSION A</text><text x="180" y="300" text-anchor="middle" class="small">14 × 16 cm</text><text x="180" y="323" text-anchor="middle" class="small">Flash behind</text>
+<text x="470" y="273" text-anchor="middle" class="label">DIFFUSION B</text><text x="470" y="300" text-anchor="middle" class="small">14 × 16 cm</text><text x="470" y="323" text-anchor="middle" class="small">Flash behind</text>
+<circle cx="325" cy="285" r="36" fill="#282e28"/><circle cx="325" cy="285" r="26" fill="#46564f"/>
+<text x="325" y="343" text-anchor="middle" class="mono">RP / 28</text>
+<rect x="175" y="380" width="240" height="150" rx="5" fill="#29372e" stroke="#151b17" stroke-width="5"/>
+<text x="295" y="444" text-anchor="middle" font-size="29" style="fill:#f4f1e6">Frame.</text><text x="295" y="478" text-anchor="middle" class="small" style="fill:#c3ccbe">Display: 24 × 15 cm allowance</text>
+<circle cx="131" cy="470" r="14.5" fill="#d3ed8a" stroke="#7a9250"/><text x="131" y="502" text-anchor="middle" class="mono">BUTTON</text>
+<rect x="430" y="423" width="118" height="77" rx="5" fill="#e7e7da" stroke="#333b31" stroke-width="4"/>
+<text x="489" y="452" text-anchor="middle" class="small">Optional LED</text><text x="489" y="477" text-anchor="middle" class="small">11.8 × 7.7</text>
+<path d="M580 285 H620 V550 H580" class="guide"/><path d="M603 285 V550" class="dim"/><text x="625" y="407" class="small">Lens centre</text><text x="625" y="430" class="small">26.5 cm</text><text x="625" y="453" class="small">above base</text>
+<text x="90" y="584" class="small">Window sizes are provisional openings, not a cutting template.</text>
+<text x="90" y="610" class="small">The screen and LED are proposed parts, not items already ordered.</text>
+
+<path d="M870 180 V150 M1095 180 V150" class="guide"/><path d="M870 160 H1095" class="dim"/><text x="982" y="150" text-anchor="middle" class="label">22.5 cm</text>
+<rect x="870" y="190" width="225" height="360" fill="#e4d6bf" stroke="#64553e" stroke-width="2"/>
+<rect x="1060" y="290" width="20" height="240" rx="3" fill="#a9b1ab" stroke="#616d64"/>
+<rect x="890" y="242" width="70" height="85" rx="4" fill="#313b33"/><rect x="859" y="251" width="32" height="69" rx="3" fill="#425248"/>
+<rect x="915" y="239" width="101" height="42" fill="#e7c08c" stroke="#947149" stroke-dasharray="4 3"/>
+<rect x="930" y="280" width="40" height="82" fill="#e7c08c" stroke="#947149" stroke-dasharray="4 3"/>
+<rect x="920" y="355" width="70" height="20" fill="#c39c6e" stroke="#947149"/>
+<rect x="1046" y="210" width="3" height="160" fill="#fffdf5"/>
+<path d="M1017 260 H1033 V218 H886" class="wire"/>
+<rect x="866" y="380" width="8" height="150" fill="#29372e"/>
+<rect x="930" y="475" width="80" height="50" fill="#bdc3bc" stroke="#778271"/>
+<path d="M980 475 V443 H1115" class="guide"/><text x="1125" y="447" class="small">Power / cable space</text>
+<path d="M1070 410 H1115" class="guide"/><text x="1125" y="398" class="small">Closed MacBook</text><text x="1125" y="422" class="small">34 × 24 × 2 cm allowance</text>
+<path d="M960 304 H1115" class="guide"/><text x="1125" y="301" class="small">RP + pancake lens</text>
+<path d="M976 251 L1100 235 H1115" class="guide"/><text x="1125" y="230" class="small">Flash, off to the side</text><text x="1125" y="253" class="small">Dashed: projected outline</text>
+<path d="M1087 470 V206" fill="none" stroke="#758f9c" stroke-width="2" marker-end="url(#arrow)"/><text x="1090" y="571" class="small">Rear ventilation path</text>
+<text x="800" y="610" class="small">Allow extra depth for lens protection; confirm all cable bends.</text>
+
+<path d="M70 650 H1330" stroke="#c7c8bb"/>
+<text x="70" y="690" class="mono">03 / CONNECTIONS — TWO FLASHES NEED TWO RADIO RECEIVERS</text>
+<rect x="90" y="728" width="160" height="52" rx="4" fill="#dde1d3"/><text x="170" y="760" text-anchor="middle" class="label">Mac / Frame</text>
+<rect x="330" y="728" width="140" height="52" rx="4" fill="#dde1d3"/><text x="400" y="760" text-anchor="middle" class="label">Canon RP</text>
+<rect x="560" y="728" width="195" height="52" rx="4" fill="#dde1d3"/><text x="657" y="760" text-anchor="middle" class="label">X2T-C transmitter</text>
+<rect x="865" y="707" width="200" height="46" rx="4" fill="#e8dfcf"/><text x="965" y="736" text-anchor="middle" class="label">X1R-C receiver A</text>
+<rect x="865" y="778" width="200" height="46" rx="4" fill="#e8dfcf"/><text x="965" y="807" text-anchor="middle" class="label">X1R-C receiver B</text>
+<text x="1150" y="736" class="label">430EX II A</text><text x="1150" y="807" class="label">430EX II B</text>
+<path d="M250 754 H330" class="wire"/><text x="290" y="713" text-anchor="middle" class="small">USB</text>
+<path d="M470 754 H560" class="wire"/><text x="515" y="713" text-anchor="middle" class="small">Hot-shoe cord</text>
+<path d="M755 754 H800 V730 H865 M800 754 V801 H865" class="wire"/><text x="808" y="692" class="small">Radio</text>
+<path d="M1065 730 H1137 M1065 801 H1137" class="wire"/>
+<text x="90" y="856" class="small">Transmitter can sit lower in the box on a Canon-compatible cord; no tall trigger above the camera.</text>
+<text x="90" y="883" class="small">Separate: Mac → HDMI display / USB button. Mains → Mac, display, LED. Flash units and triggers use batteries.</text>
+<path d="M70 915 H1330" stroke="#c7c8bb"/>
+<text x="70" y="953" font-size="19">On a 75 cm table, the lens is only about 102 cm high: plan seated portraits or a taller venue surface.</text>
+<text x="70" y="988" class="small">Concept only · external box dimensions assumed · actual internal clearance, mounts, cooling and light uniformity require a physical prototype.</text>
+<text x="70" y="1017" class="mono">PARTY APPLIANCES / 06 SEPTEMBER 2026</text>
+</svg>

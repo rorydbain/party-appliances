@@ -1,0 +1,30 @@
+{
+  "name": "party-appliances",
+  "productName": "Party Appliances",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "description": "Two local-first Mac party appliances: a mixed-media projection player and a tethered photo booth.",
+  "license": "MIT",
+  "main": "src/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "loop": "electron . --mode=loop",
+    "booth": "electron . --mode=booth",
+    "test": "node --test test/*.test.cjs",
+    "test:app": "node test/app.cjs",
+    "package": "node scripts/package.cjs",
+    "package:loop": "PARTY_APPS=loop node scripts/package.cjs",
+    "package:booth": "PARTY_APPS=booth node scripts/package.cjs",
+    "setup:mac": "bash scripts/setup-macos.sh",
+    "build:native": "node scripts/build-native.cjs",
+    "test:rp-flow": "node test/rp-flow.cjs"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "44.2.0",
+    "playwright": "1.63.0"
+  },
+  "dependencies": {
+    "exifr": "7.1.3"
+  }
+}

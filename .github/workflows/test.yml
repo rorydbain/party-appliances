@@ -1,0 +1,31 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm audit --omit=dev
+      - run: npm ci
+        working-directory: cloud
+      - run: npm test
+        working-directory: cloud
+      - run: npm audit --omit=dev
+        working-directory: cloud
+      - run: npm ci
+        working-directory: gallery
+      - run: npm audit --omit=dev
+        working-directory: gallery
