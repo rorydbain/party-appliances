@@ -16,8 +16,8 @@ test('Canon USB presence distinguishes a missing cable from a driver handoff pro
   const noCamera = async () => ({ stdout: 'Model                          Port\n----------------------------------------------------------\n' });
   const noUsb = async () => ({ stdout: '+-o USB3.0 Card Reader@00210000' });
   const canonUsb = async () => ({ stdout: '+-o Canon Digital Camera@00100000' });
-  assert.equal((await status(noCamera, noUsb)).reason, 'usb-missing');
-  assert.equal((await status(noCamera, canonUsb)).reason, 'driver-unavailable');
+  assert.equal((await status(noCamera, noUsb, '/fake/gphoto2')).reason, 'usb-missing');
+  assert.equal((await status(noCamera, canonUsb, '/fake/gphoto2')).reason, 'driver-unavailable');
 });
 
 test('Canon USB ownership errors become useful host instructions', () => {

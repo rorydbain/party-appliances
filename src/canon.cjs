@@ -78,8 +78,8 @@ async function usbPresence(run = exec) {
   } catch { return null; }
 }
 
-async function status(run = exec, usbRun = exec) {
-  const binary = await executable();
+async function status(run = exec, usbRun = exec, binaryOverride = null) {
+  const binary = binaryOverride || await executable();
   if (!binary) return { available: false, connected: false, message: 'Install gphoto2 to use Canon still capture.' };
   try {
     const { stdout } = await run(binary, ['--auto-detect'], { timeout: 12000, maxBuffer: 1024 * 1024 });
