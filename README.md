@@ -1,167 +1,69 @@
 # Party Appliances
 
-Two local-first Mac applications for parties:
+Two local-first Mac apps for making photographs and showing them at parties.
+They work independently, or can pass new photographs from the booth into the
+slideshow during an event.
 
-- **Loop** plays a changing grid of photos and short excerpts from videos on a
-  projector or second display.
-- **Photobooth** controls a Canon EOS RP, applies a built-in colour treatment,
-  saves every photograph locally, and can optionally print QR receipts and
-  upload finished photographs to a guest gallery.
+## Photobooth
 
-The applications are deliberately plain party tools rather than wedding-theme
-templates. They were developed for one real event and retain that opinionated
-shape. Forks can change the interface, colour and hardware profiles.
+Photobooth controls an external camera over USB, shows guests a live preview,
+takes the photograph and applies a chosen colour treatment. The tested setup
+uses a Canon EOS RP through `gphoto2`, but the camera layer is designed to grow
+to support other tethered cameras.
 
-## Screenshots
+Every photograph is saved locally as an untouched original and a finished
+JPEG. Optional additions can print a small version and QR code on an Epson
+receipt printer, and upload the finished photograph to a public phone-friendly
+gallery. The camera-only booth needs neither of those services nor an internet
+connection.
 
 <p>
   <img src="docs/screenshots/photobooth-guest.jpg" width="49%" alt="Photobooth guest mode showing a treated live camera view and a large Take photo button">
   <img src="docs/screenshots/photobooth-host.jpg" width="49%" alt="Photobooth host screen with camera status, colour treatment and local session controls">
 </p>
 
+## Loop
+
+Loop is a projector slideshow for both photographs and videos. It can use one
+large image or a changing grid of mixed aspect ratios, with tiles moving and
+changing at staggered times. Long videos return as different short excerpts, so
+video can remain part of the evening without stopping the whole slideshow for
+several minutes. That mixed photo-and-video playback is the main reason Loop
+exists instead of using a conventional photo slideshow.
+
 ![Loop displaying six mixed-aspect party photographs in its changing grid](docs/screenshots/loop-grid.jpg)
 
-The screenshots use fictional synthetic demo photographs; no event guests or
-private library media are included.
+## Using them together
 
-## Current support
+Photobooth can upload photographs to its optional public gallery. Loop can poll
+that gallery and weave new booth photographs into the running slideshow within
+a few minutes. The integration is best-effort: both apps continue working
+locally if the network disappears, and neither app requires the other.
 
-- Apple-silicon Mac running macOS 13 or later
-- Canon EOS RP with USB tethering for Photobooth
-- Epson TM-T20III over USB for optional receipts
-- Projector, television or second display for Loop
-- Optional iPad using Sidecar for the Photobooth guest screen
+## Try it
 
-Loop runs without the camera, printer or an internet connection. Photobooth
-saves locally without the printer or cloud service. Other Canon cameras may
-work through `gphoto2`, but only the EOS RP workflow is currently supported and
-tested.
-
-## The simple Photobooth
-
-The smallest useful setup is a Mac, Canon RP, lens and USB data cable. A flash
-is strongly recommended for party lighting. It needs no account, internet,
-printer, projector, event profile or cloud service.
+Party Appliances currently targets Apple-silicon Macs. Photobooth is tested
+with the Canon EOS RP and Loop works with ordinary image and video files.
 
 ```sh
 git clone https://github.com/rorydbain/party-appliances.git
 cd party-appliances
-./scripts/setup-macos.sh --booth-only
+./scripts/setup-macos.sh --booth-only  # Photobooth only
+./scripts/setup-macos.sh --loop-only   # Loop only
+./scripts/setup-macos.sh               # Both apps
 ```
 
-Connect and switch on the camera, then open **Photobooth** from Applications.
-It connects automatically, shows a treated live view and stores an untouched
-original plus the finished JPEG under
-`~/Movies/Party Appliances/Booth captures/`.
+The generated apps are development builds and are not yet notarised. See the
+guides for the complete setup:
 
-With no sharing configuration, the host screen shows local storage and recent
-photos. It does not show cloud, printer or receipt controls.
+- [Photobooth](docs/PHOTOBOOTH.md)
+- [Loop](docs/LOOP.md)
+- [Tested hardware](docs/HARDWARE.md)
+- [Optional gallery](docs/CLOUD.md)
+- [Optional receipt printer](docs/PRINTER.md)
+- [Development](docs/DEVELOPMENT.md)
 
-## Add only what you need
-
-| Part | What it adds | Required? |
-| --- | --- | --- |
-| Built-in colour treatments | Warm film, soft neutral and monochrome output | Included |
-| Flash | More consistent, flattering party photographs | Recommended |
-| iPad with Sidecar | A larger touch screen for guests | Optional |
-| Epson receipt printer + gallery | QR receipts linked to each photograph | Optional |
-| Cloudflare gallery | Phone viewing, downloads and remote deletion | Optional |
-| Loop on another Mac | Projector slideshow with optional new booth photos | Separate app |
-
-Photobooth and Loop never need to run together. Loop's live booth feed is
-best-effort and stays dormant unless a feed URL is explicitly configured.
-
-## Install both apps from source
-
-Install Node.js 20 or later. Photobooth also needs Homebrew `gphoto2`:
-
-```sh
-brew install gphoto2
-npm ci
-npm run build:native
-npm run package
-```
-
-The packaging command creates and installs separate `Loop.app` and
-`Photobooth.app` applications. These development builds are ad-hoc signed and
-are not notarised. If macOS blocks a copied build, use the app-specific **Open
-Anyway** control in Privacy & Security; do not disable Gatekeeper.
-
-For development:
-
-```sh
-npm run loop
-npm run booth
-npm test
-```
-
-The normal unit tests do not open application windows or use the real camera.
-`npm run test:app` is an explicit interactive smoke test.
-
-## Optional event configuration
-
-Both apps read one shared event profile from:
-
-```text
-~/Library/Application Support/Party Appliances/event.json
-```
-
-Copy [`config/event.example.json`](config/event.example.json) there only if you
-want custom names, receipt headings or online URLs. With no profile, the apps
-use generic local-only defaults and Loop does not contact a live photo feed.
-
-Photobooth's upload token and print switch remain in its private delivery file:
-
-```text
-~/Library/Application Support/Frame/delivery.json
-```
-
-Copy [`config/delivery.example.json`](config/delivery.example.json) to that
-location only when cloud delivery or QR receipts are wanted. The legacy `Frame`
-directory is retained so existing Photobooth installations keep their queues,
-preferences and printer environment.
-
-Photobooth includes two original, redistributable LUTs: **Warm film** and
-**Soft neutral**. Camera colour and black and white are also available. The
-commercial preset used while developing the original event build is not part of
-this repository.
-
-## Hardware
-
-The exact tested build is documented in [Hardware](docs/HARDWARE.md). It uses a
-Canon RP, RF 28mm F2.8 STM, one Canon 430EX II on the hot shoe, an iPad over
-Sidecar and an optional Epson TM-T20III. The cardboard enclosure drawings are
-included as a case study; the software does not require that enclosure.
-
-## Optional sharing and receipts
-
-- [Cloud gallery setup](docs/CLOUD.md)
-- [Receipt printer setup](docs/PRINTER.md)
-- [Party-day checklist](docs/EVENT-CHECKLIST.md)
-- [Loop guide](docs/LOOP.md)
-- [Photobooth guide](docs/PHOTOBOOTH.md)
-- [Development and architecture](docs/DEVELOPMENT.md)
-
-The gallery uses a Cloudflare Worker and R2 bucket. A small optional Vercel proxy
-can attach a friendly custom domain. No gallery or Vercel account is needed for
-local capture and playback.
-
-## Data locations
-
-Photographs, the Loop library and diagnostics stay under:
-
-```text
-~/Movies/Party Appliances/
-```
-
-Back up `Booth captures` after an event. Uploading never removes the local
-camera original.
-
-## Status
-
-This is an early public-source beta. Before relying on it at an event, rehearse
-the complete setup on the actual Macs, camera, flash, display, printer and
-network. See [the publishing and release checklist](docs/PUBLISHING-PLAN.md).
-
-Party Appliances is available under the [MIT licence](LICENSE). Bundled asset
-notices are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+This is an early public beta. Rehearse the complete hardware setup before using
+it at an event. Party Appliances is available under the [MIT licence](LICENSE).
+The screenshots contain fictional synthetic demo photographs rather than real
+event guests.
