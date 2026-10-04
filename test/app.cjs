@@ -47,7 +47,7 @@ let app;
   await page.waitForFunction(() => document.querySelector('#booth-message').textContent === 'Saved', { timeout: 15000 });
   assert.equal(await page.locator('#lens-cue').isHidden(), true);
   assert.equal(await page.locator('#sync-list .sync-row').count(), 1);
-  assert.match(await page.locator('#sync-list').textContent(), /Photo.*Waiting for setup/s);
+  assert.match(await page.locator('#sync-list').textContent(), /Photo.*Saved on this Mac/s);
   assert.equal(await page.locator('#sync-list .sync-delete').count(), 1);
   const base = path.join(data, 'Booth captures'); const day = (await fs.readdir(base))[0]; const dir = path.join(base, day, (await fs.readdir(path.join(base, day)))[0]); const savedPhotos = { dir, files: await fs.readdir(dir), metadata: JSON.parse(await fs.readFile(path.join(dir, 'capture.json'), 'utf8')) };
   assert.ok(savedPhotos.files.includes('original.jpg')); assert.ok(savedPhotos.files.includes('print.jpg')); assert.ok(savedPhotos.files.includes('thumb.jpg')); assert.ok(savedPhotos.metadata.width > 0);

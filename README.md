@@ -12,6 +12,18 @@ The applications are deliberately plain party tools rather than wedding-theme
 templates. They were developed for one real event and retain that opinionated
 shape. Forks can change the interface, colour and hardware profiles.
 
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/photobooth-guest.jpg" width="49%" alt="Photobooth guest mode showing a treated live camera view and a large Take photo button">
+  <img src="docs/screenshots/photobooth-host.jpg" width="49%" alt="Photobooth host screen with camera status, colour treatment and local session controls">
+</p>
+
+![Loop displaying six mixed-aspect party photographs in its changing grid](docs/screenshots/loop-grid.jpg)
+
+The screenshots use fictional synthetic demo photographs; no event guests or
+private library media are included.
+
 ## Current support
 
 - Apple-silicon Mac running macOS 13 or later

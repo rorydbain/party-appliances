@@ -573,7 +573,7 @@ async function renderBooth() {
     if (busy()) return; resetReview(); token++; phase = 'off';
     await stopStillPreview();
     if (stream) { stream.getTracks().forEach(t => { t.onended = null; t.stop(); }); stream = null; }
-    live.srcObject = null; live.hidden = true; $('#camera-rest').hidden = true; $('#camera-empty').hidden = false; $('#live-label').hidden = true; $('#capture').disabled = true; $('#guest').disabled = true; $('#disconnect').disabled = true; setMessage('Camera paused.');
+    live.srcObject = null; live.hidden = true; $('#camera-rest').hidden = true; $('#camera-empty').hidden = false; $('#live-label').hidden = true; $('#capture').disabled = true; $('#guest').disabled = true; $('#disconnect').disabled = true; $('#apply-camera').textContent = 'Connect Canon RP'; setMessage('Camera paused.');
     await api.boothActive(false);
   }
   async function connect() {
@@ -584,7 +584,7 @@ async function renderBooth() {
       if (stillCamera.connected && !boot.test) {
         await api.prepareStillCamera();
 
-        await startStillPreview(); await listDevices(); await savePrefs(); $('#toast').hidden = true; $('#camera-empty').hidden = true; $('#camera-rest').hidden = true; $('#live-label').hidden = false; $('#live-text').textContent = 'LIVE PREVIEW / RP STILL SAVED'; $('#resolution').textContent = 'Canon RP live feed · medium JPEG stills.'; phase = 'ready'; markActivity(); $('#capture').disabled = !lastStillFrameAt; $('#guest').disabled = false; $('#disconnect').disabled = false; setLook(); setMessage('Ready'); await api.boothActive(false); return;
+        await startStillPreview(); await listDevices(); await savePrefs(); $('#toast').hidden = true; $('#camera-empty').hidden = true; $('#camera-rest').hidden = true; $('#live-label').hidden = false; $('#live-text').textContent = 'LIVE PREVIEW / RP STILL SAVED'; $('#resolution').textContent = 'Canon RP live feed · medium JPEG stills.'; $('#apply-camera').textContent = 'Reconnect Canon RP'; phase = 'ready'; markActivity(); $('#capture').disabled = !lastStillFrameAt; $('#guest').disabled = false; $('#disconnect').disabled = false; setLook(); setMessage('Ready'); await api.boothActive(false); return;
       }
       if (!boot.test) throw new Error(stillCamera.message || 'Canon EOS RP not connected. Switch it on and reconnect its USB data cable, then choose Check connection.');
       if (!await api.mediaPermission('camera')) throw new Error('Allow Photobooth to use the camera in System Settings → Privacy & Security → Camera, then restart Photobooth.');
@@ -598,7 +598,7 @@ async function renderBooth() {
         else { cancelCapture(); phase = 'ready'; stopCamera(); }
         toast('Camera disconnected. Check the cable, then reconnect. Any pending save can still be retried.', true);
       });
-      await refreshStill(); live.hidden = false; $('#live-text').textContent = stillCamera.connected ? 'LIVE PREVIEW / RP STILL SAVED' : 'LIVE / VIDEO FRAME SAVED'; $('#toast').hidden = true; $('#camera-empty').hidden = true; $('#camera-rest').hidden = true; $('#live-label').hidden = false; phase = 'ready'; markActivity(); $('#capture').disabled = false; setLook(); setMessage('Ready');
+      await refreshStill(); live.hidden = false; $('#live-text').textContent = stillCamera.connected ? 'LIVE PREVIEW / RP STILL SAVED' : 'LIVE / VIDEO FRAME SAVED'; $('#toast').hidden = true; $('#camera-empty').hidden = true; $('#camera-rest').hidden = true; $('#live-label').hidden = false; $('#apply-camera').textContent = 'Reconnect Canon RP'; phase = 'ready'; markActivity(); $('#capture').disabled = false; setLook(); setMessage('Ready');
       await api.boothActive(false);
     } catch(e) {
       if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }

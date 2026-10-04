@@ -12,6 +12,7 @@
     "booth": "electron . --mode=booth",
     "test": "node --test test/*.test.cjs",
     "test:app": "node test/app.cjs",
+    "docs:screenshots": "node scripts/capture-docs.cjs",
     "package": "node scripts/package.cjs",
     "package:loop": "PARTY_APPS=loop node scripts/package.cjs",
     "package:booth": "PARTY_APPS=booth node scripts/package.cjs",

@@ -115,7 +115,7 @@ function emit(channel, data) { if (control && !control.isDestroyed()) control.we
 function sendOutput(channel, data) { if (output && !output.isDestroyed()) output.webContents.send(channel, data); }
 function updatePower() { if ((running || captureBusy || boothAwake) && !blocker) blocker = powerSaveBlocker.start('prevent-display-sleep'); if (!running && !captureBusy && !boothAwake && blocker) { powerSaveBlocker.stop(blocker); blocker = null; } }
 function makeWindow(options = {}) {
-  const win = new BrowserWindow({ width: 1240, height: 850, minWidth: 860, minHeight: 650, backgroundColor: '#f1f0e9', titleBarStyle: 'hiddenInset', ...options, webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false } });
+  const win = new BrowserWindow({ width: 1240, height: 850, minWidth: 860, minHeight: 650, backgroundColor: '#f1f0e9', titleBarStyle: 'hiddenInset', show: process.env.PARTY_HEADLESS !== '1', ...options, webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false } });
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   win.webContents.on('will-navigate', e => e.preventDefault());
   win.webContents.on('render-process-gone', (_event, details) => diagnostic('renderer-gone', { title: win.getTitle(), details }));
