@@ -28,7 +28,7 @@ class Bucket {
 }
 
 test('upload creates one treated download, a lightweight gallery tile and a ZIP of the party', async () => {
-  const bucket = new Bucket(), env = { FRAME_BUCKET: bucket, UPLOAD_TOKEN: 'secret', EVENT_NAME: 'Alex & Sam', DEFAULT_EVENT: 'our-party', EVENT_TIMEZONE: 'Europe/London', PUBLIC_GALLERY_ORIGIN: 'https://photos.example.com' };
+  const bucket = new Bucket(), env = { FRAME_BUCKET: bucket, UPLOAD_TOKEN: 'secret', EVENT_NAME: 'Alex & Sam', DEFAULT_EVENT: 'our-party', EVENT_TIMEZONE: 'Europe/London', PUBLIC_GALLERY_ORIGIN: 'https://photos.example.com', SHARED_ALBUM_URL: 'https://photos.icloud.com/shared/album/example' };
   const token = '0123456789abcdef0123456789abcdef', form = new FormData();
   form.set('metadata', JSON.stringify({ id: 'capture-1', token, event: 'our-party', kind: 'photo', createdAt: '2026-09-12T12:00:00Z' }));
   form.append('files', new Blob([new Uint8Array([255,216,1,255,217])], { type: 'image/jpeg' }), 'print.jpg');
@@ -41,6 +41,7 @@ test('upload creates one treated download, a lightweight gallery tile and a ZIP 
   assert.equal(individual.status, 200); assert.match(individualHtml, /Download photo/); assert.match(individualHtml, /class="back"[^>]+aria-label="Back to all photographs"/); assert.doesNotMatch(individualHtml, /See the whole party|<p class="muted">Your photograph|<h1>Keep this one/);
   const gallery = await worker.fetch(new Request('https://worker.example/'), env); assert.equal(gallery.status, 200); const galleryHtml = await gallery.text();
   assert.match(galleryHtml, /Alex &amp; Sam/); assert.match(galleryHtml, /thumb\.jpg/); assert.match(galleryHtml, /Download all/); assert.match(galleryHtml, /12 Sept 2026 · 13:00/); assert.doesNotMatch(galleryHtml, /The whole party/);
+  assert.ok(galleryHtml.indexOf('Upload photos') < galleryHtml.indexOf('Download all')); assert.ok(galleryHtml.indexOf('Download all') < galleryHtml.indexOf('iCloud shared album'));
   const feed = await worker.fetch(new Request('https://worker.example/api/events/our-party/photos'), env); const feedData = await feed.json();
   assert.equal(feed.status, 200); assert.equal(feed.headers.get('cache-control'), 'no-store'); assert.deepEqual(feedData.photos, [{ token, createdAt: '2026-09-12T12:00:00Z', url: `https://photos.example.com/media/our-party/${token}/print.jpg` }]);
   const download = await worker.fetch(new Request(`https://photos.example/media/our-party/${token}/print.jpg?download=1`), env);
