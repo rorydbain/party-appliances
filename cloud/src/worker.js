@@ -95,8 +95,8 @@ async function appDelete(request, env, token) {
 
 function mediaUrl(origin, event, token, name, download = false) { return `${origin}/media/${encodeURIComponent(event)}/${token}/${name}${download ? '?download=1' : ''}`; }
 
-function downloadAction(origin, event, token, name, kind) {
-  const inlineUrl = mediaUrl(origin, event, token, name), downloadUrl = mediaUrl(origin, event, token, name, true);
+function downloadAction(_origin, event, token, name, kind) {
+  const inlineUrl = mediaUrl('', event, token, name), downloadUrl = mediaUrl('', event, token, name, true);
   if (kind !== 'photo') return `<a class="button" href="${downloadUrl}">Download film</a>`;
   const id = `save-${token}`;
   return `<a class="button" id="${id}" href="${downloadUrl}">Download photo</a><script>(()=>{const button=document.getElementById('${id}'),inlineUrl='${inlineUrl}',isIOS=/iP(?:hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);if(!isIOS)return;button.textContent='Save photo';let prepared=null;const filePromise=fetch(inlineUrl).then(response=>{if(!response.ok)throw new Error('Photo unavailable');return response.blob()}).then(blob=>prepared=new File([blob],'rebecca-rory-photo.jpg',{type:'image/jpeg'}));button.addEventListener('click',async event=>{event.preventDefault();const original=button.textContent;button.textContent='Preparing…';try{const file=prepared||await filePromise;if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){button.textContent=original;await navigator.share({files:[file]});return}}catch(error){button.textContent=original;if(error&&error.name==='AbortError')return}location.href=inlineUrl})})()</script>`;
