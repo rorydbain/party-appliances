@@ -106,7 +106,7 @@ test('the upload page prepares batches for the direct Worker endpoint and the ho
   assert.equal(upload.status, 200); assert.match(uploadHtml, /multiple/); assert.match(uploadHtml, /api\/guest\/captures/); assert.doesNotMatch(uploadHtml, /These are from|Disposable cameras|id="collection"/); assert.match(uploadHtml, /running&lt;3|running<3/); assert.match(uploadHtml, /passcodeWrap\.classList\.add\('hidden'\)/); assert.match(uploadHtml, /unlockFailed/);
   const gallery = await worker.fetch(new Request('https://worker.example/'), env); const galleryHtml = await gallery.text();
   assert.match(galleryHtml, /Upload photos/); assert.match(galleryHtml, /https:\/\/photos\.icloud\.com\/shared\/album\/example/); assert.match(galleryHtml, /iCloud shared album/);
-  assert.doesNotMatch(galleryHtml, /photographs from the party/); assert.match(galleryHtml, /overflow-x:auto/); assert.match(galleryHtml, /flex-wrap:nowrap/);
+  assert.doesNotMatch(galleryHtml, /photographs from the party/); assert.match(galleryHtml, /overflow-x:auto/); assert.match(galleryHtml, /flex-wrap:nowrap/); assert.match(galleryHtml, /searchParams\.set\('filter',filter\)/); assert.match(galleryHtml, /searchParams\.get\('filter'\)/);
 });
 
 test('the booth delete endpoint is authorised and idempotent', async () => {
