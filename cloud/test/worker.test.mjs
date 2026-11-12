@@ -83,6 +83,31 @@ test('uploads require the booth secret and reject oversized or unrecognised file
   assert.equal(invalid.status, 400);
 });
 
+test('guest uploads require the public gallery and shared passcode, then retain their collection', async () => {
+  const bucket = new Bucket(), token = '11111111111111111111111111111111';
+  const env = { FRAME_BUCKET: bucket, DEFAULT_EVENT: 'our-party', EVENT_NAME: 'Alex and Sam', PUBLIC_GALLERY_ORIGIN: 'https://photos.example.com', GUEST_UPLOAD_PASSWORD: 'shared words' };
+  const makeForm = () => { const form = new FormData(); form.set('metadata', JSON.stringify({ id: `guest-${token}`, token, event: 'our-party', kind: 'photo', createdAt: '2026-08-01T10:30:00Z', collection: 'disposable', originalName: 'scan 001.jpg' })); form.append('files', new Blob([new Uint8Array([255,216,1,255,217])], { type: 'image/jpeg' }), 'original.jpg'); form.append('files', new Blob([new Uint8Array([255,216,2,255,217])], { type: 'image/jpeg' }), 'thumb.jpg'); return form; };
+  const wrongOrigin = await worker.fetch(new Request('https://worker.example/api/guest/captures', { method: 'POST', headers: { origin: 'https://wrong.example', 'x-upload-password': 'shared words' }, body: makeForm() }), env);
+  assert.equal(wrongOrigin.status, 403);
+  const wrongPassword = await worker.fetch(new Request('https://worker.example/api/guest/captures', { method: 'POST', headers: { origin: 'https://photos.example.com', 'x-upload-password': 'wrong' }, body: makeForm() }), env);
+  assert.equal(wrongPassword.status, 401);
+  const uploaded = await worker.fetch(new Request('https://worker.example/api/guest/captures', { method: 'POST', headers: { origin: 'https://photos.example.com', 'x-upload-password': 'shared words' }, body: makeForm() }), env);
+  assert.equal(uploaded.status, 200); assert.equal(uploaded.headers.get('access-control-allow-origin'), 'https://photos.example.com');
+  const manifest = JSON.parse(new TextDecoder().decode(bucket.items.get(`our-party/${token}/capture.json`).bytes));
+  assert.equal(manifest.collection, 'disposable'); assert.equal(manifest.originalName, 'scan 001.jpg');
+  assert.equal(bucket.items.get(`our-party/${token}/capture.json`).options.customMetadata.source, 'guest-upload');
+  const gallery = await worker.fetch(new Request('https://worker.example/'), env); const html = await gallery.text();
+  assert.match(html, /data-collection="disposable"/); assert.match(html, /Disposable cameras/);
+});
+
+test('the upload page prepares batches for the direct Worker endpoint and the homepage links the shared album', async () => {
+  const env = { FRAME_BUCKET: new Bucket(), DEFAULT_EVENT: 'our-party', EVENT_NAME: 'Alex and Sam', SHARED_ALBUM_URL: 'https://photos.icloud.com/shared/album/example' };
+  const upload = await worker.fetch(new Request('https://worker.example/upload'), env); const uploadHtml = await upload.text();
+  assert.equal(upload.status, 200); assert.match(uploadHtml, /multiple/); assert.match(uploadHtml, /api\/guest\/captures/); assert.match(uploadHtml, /Disposable cameras/); assert.match(uploadHtml, /running&lt;3|running<3/);
+  const gallery = await worker.fetch(new Request('https://worker.example/'), env); const galleryHtml = await gallery.text();
+  assert.match(galleryHtml, /Upload photos/); assert.match(galleryHtml, /https:\/\/photos\.icloud\.com\/shared\/album\/example/); assert.match(galleryHtml, /iCloud shared album/);
+});
+
 test('the booth delete endpoint is authorised and idempotent', async () => {
   const bucket = new Bucket(), token = '0123456789abcdef0123456789abcdef';
   await bucket.put(`our-party/${token}/print.jpg`, 'photo'); await bucket.put(`our-party/${token}/capture.json`, '{}', { customMetadata: { capture: 'ready' } });
