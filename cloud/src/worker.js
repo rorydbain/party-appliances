@@ -95,6 +95,13 @@ async function appDelete(request, env, token) {
 
 function mediaUrl(origin, event, token, name, download = false) { return `${origin}/media/${encodeURIComponent(event)}/${token}/${name}${download ? '?download=1' : ''}`; }
 
+function downloadAction(origin, event, token, name, kind) {
+  const inlineUrl = mediaUrl(origin, event, token, name), downloadUrl = mediaUrl(origin, event, token, name, true);
+  if (kind !== 'photo') return `<a class="button" href="${downloadUrl}">Download film</a>`;
+  const id = `save-${token}`;
+  return `<a class="button" id="${id}" href="${downloadUrl}">Download photo</a><script>(()=>{const button=document.getElementById('${id}'),inlineUrl='${inlineUrl}',isIOS=/iP(?:hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);if(!isIOS)return;button.textContent='Save photo';let prepared=null;const filePromise=fetch(inlineUrl).then(response=>{if(!response.ok)throw new Error('Photo unavailable');return response.blob()}).then(blob=>prepared=new File([blob],'rebecca-rory-photo.jpg',{type:'image/jpeg'}));button.addEventListener('click',async event=>{event.preventDefault();const original=button.textContent;button.textContent='Preparing…';try{const file=prepared||await filePromise;if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){button.textContent=original;await navigator.share({files:[file]});return}}catch(error){button.textContent=original;if(error&&error.name==='AbortError')return}location.href=inlineUrl})})()</script>`;
+}
+
 async function upload(request, env, guest = false) {
   const respond = (value, status = 200) => guest ? guestJson(env, value, status) : Response.json(value, { status });
   if (guest) {
@@ -138,8 +145,7 @@ async function capturePage(request, env, event, token) {
   const previewName = item.files.includes('print.jpg') ? 'print.jpg' : item.files.includes('original.jpg') ? 'original.jpg' : item.files[0];
   const media = item.kind === 'video' ? `<video class="hero" src="${mediaUrl(origin,event,token,previewName)}" controls playsinline></video>` : `<img class="hero" src="${mediaUrl(origin,event,token,previewName)}" alt="Your photograph">`;
   const downloadName = item.kind === 'photo' && item.files.includes('print.jpg') ? 'print.jpg' : item.kind === 'photo' && item.files.includes('original.jpg') ? 'original.jpg' : previewName;
-  const label = item.kind === 'video' ? 'Download film' : 'Download photo';
-  return new Response(page('Your photograph', `${media}<div class="actions"><a class="button" href="${mediaUrl(origin,event,token,downloadName,true)}">${label}</a></div>`, env, { backHref: `/e/${encodeURIComponent(event)}` }), { headers: { 'content-type': 'text/html;charset=UTF-8', 'cache-control': 'public,max-age=60' } });
+  return new Response(page('Your photograph', `${media}<div class="actions">${downloadAction(origin,event,token,downloadName,item.kind)}</div>`, env, { backHref: `/e/${encodeURIComponent(event)}` }), { headers: { 'content-type': 'text/html;charset=UTF-8', 'cache-control': 'public,max-age=60' } });
 }
 
 async function captureStatus(request, env, token) {
@@ -177,7 +183,7 @@ async function gallery(request, env, event) {
     const item = object ? await object.json() : { files: [name], kind: selectedPreview.customMetadata.kind };
     const preview = item.kind === 'video' ? `<video class="hero" src="${mediaUrl(origin,event,token,name)}" controls playsinline></video>` : `<img class="hero" src="${mediaUrl(origin,event,token,name)}" alt="Your photograph">`;
     const downloadName = item.kind === 'photo' && item.files.includes('print.jpg') ? 'print.jpg' : item.kind === 'photo' && item.files.includes('original.jpg') ? 'original.jpg' : name;
-    selected = `<section>${preview}<div class="actions"><a class="button" href="${mediaUrl(origin,event,token,downloadName,true)}">${item.kind === 'video' ? 'Download film' : 'Download photo'}</a></div></section>`;
+    selected = `<section>${preview}<div class="actions">${downloadAction(origin,event,token,downloadName,item.kind)}</div></section>`;
   }
   const tiles = items.map(item => { const [,token] = item.key.split('/'), name = item.customMetadata.thumbnailName || item.customMetadata.previewName; const src = mediaUrl(origin,event,token,name); const content = item.customMetadata.kind === 'video' && name !== 'thumb.jpg' ? `<video src="${src}" muted playsinline preload="metadata"></video>` : `<img loading="lazy" decoding="async" src="${src}" alt="Party photograph">`; const timestamp = formatTimestamp(item.customMetadata.createdAt, env), collection = ['guest','disposable'].includes(item.customMetadata.collection) ? item.customMetadata.collection : 'photobooth'; return `<article class="gallery-item" data-collection="${collection}"><a class="tile" href="/e/${encodeURIComponent(event)}/p/${token}">${content}</a>${timestamp ? `<time class="timestamp" datetime="${escape(item.customMetadata.createdAt)}">${escape(timestamp)}</time>` : ''}</article>`; }).join('');
   const bulk = items.some(item => item.customMetadata.downloadName) ? `<a class="button" href="/e/${encodeURIComponent(event)}/download">Download all</a>` : '';
